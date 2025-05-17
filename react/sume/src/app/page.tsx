@@ -1,5 +1,11 @@
-import Image from "next/image";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return "HI";
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/analzyer");
+  }, []);
 }
