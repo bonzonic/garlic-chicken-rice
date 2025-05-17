@@ -6,6 +6,7 @@ import JobCard from "./jobMatching";
 import { TextField, Autocomplete, Chip, Button } from "@mui/material";
 import { jobTypes, specialisation, states } from "./jobs";
 
+const description_length = 200
 const FilterComponent = ({
   stringArray,
   text,
@@ -54,25 +55,29 @@ interface Job {
 const JobMatchingPage = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0);
-
+  const [applying, setApplying] = useState(false)
   const handleApply = () => {
-    console.log("hoe")
+    setJobs([])
+    setApplying(true)
+    const resumeText = localStorage.getItem("resume-text");
     fetch("http://localhost:8080/api/match", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "resumeText": "I like CS",
-        "state": "Kuala Lumpur",
-        "specialization": "Software Engineering",
-        "jobType": " Full Time"
+        "resumeText": resumeText,
+        "state": null,
+        "specialisation": null,
+        "jobType": null
         // Add more fields as needed
       }),
     })
-      .then((res) => res.json().matches)
+      .then((res) => res.json())
       .then((data) => {
         console.log("Applied!", data);
+        setJobs(data.matches)
+        setApplying(false)
         // Optionally show a success message
       })
       .catch((err) => console.error("Failed to apply for job:", err));
@@ -90,8 +95,10 @@ const JobMatchingPage = () => {
 
   const currentJob = jobs[currentJobIndex];
 
+
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
+    <div className="flex flex-col items-center justify-center w-full h-full">
+
       <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
         <FilterComponent stringArray={specialisation} text="Specialisation" />
         <FilterComponent stringArray={states} text="State" />
@@ -106,39 +113,41 @@ const JobMatchingPage = () => {
           Apply Filter
         </Button>
       </div>
-      {jobs.length > 0 && currentJob ? (
-        <div>
+
+
+
+      {jobs.length > 0 && 
+        <div className="h-full w-full my-10 max-w-[800px]">
+
           <JobCard
-            companyDetails={currentJob.companyDetails}
-            jobTitle={currentJob.jobTitle}
-            description={currentJob.description}
-            url={currentJob.url}
-            requirements={currentJob.requirements}
+            className="h-full"
+            companyDetails={currentJob.metadata.company}
+            jobTitle={currentJob.metadata.title}
+            description={
+              currentJob.metadata.job_description.length > description_length
+              ? currentJob.metadata.job_description.slice(0, description_length) + "..."
+              : currentJob.metadata.job_description
+            }
+            url={currentJob.metadata.job_url}
             onApprove={handleApprove}
             onNext={handleNext}
           />
-          <button
-            style={{
-              marginTop: "16px",
-              padding: "8px 16px",
-              background: "#1976d2",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-            onClick={handleApprove}
-          >
-            Apply
-          </button>
         </div>
-      ) : (
+      }
+      {jobs.length == 0 && !applying &&
         <div class="h-full pt-10" > 
-          <p>
-            No filters applied.
-          </p>
-        </div>
-      )}
+            <p>
+              No jobs searched yet
+            </p>
+          </div>
+      }
+      {jobs.length == 0 && applying &&
+        <div class="h-full pt-10" > 
+            <p>
+              Loading matching jobs...
+            </p>
+          </div>
+      }
     </div>
 );
 };

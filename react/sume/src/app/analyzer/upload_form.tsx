@@ -33,14 +33,20 @@ const UploadForm: React.FC = () => {
       .then(response => {
         if (!response.ok) {
           throw new Error("Upload failed");
-        }
-        else {
+        } else {
           setUploading(false)
           setUploaded(true);
         }
-
         return response.json();
       })
+      .then(data => {
+        console.log(data)
+        // Now you have the result (e.g., extracted text)
+        localStorage.setItem("resume-text", data.pdfData); // or whatever field you want
+      })
+
+
+
       // Here you can handle the upload logic (e.g., send to server)
     }
   };

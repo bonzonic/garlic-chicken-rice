@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const OSS = require('ali-oss');
 const router = express.Router();
+const pdfParse = require('pdf-parse');
 
 // Configure your OSS client
 const client = new OSS({
@@ -37,6 +38,12 @@ router.post('/upload/:username', upload.single('file'), async (req, res) => {
     const ossPath = `${username}/${req.file.originalname}`;
     const result = await client.put(ossPath, req.file.path);
 
+    // Read the uploaded PDF file
+    const dataBuffer = fs.readFileSync(req.file.path);
+
+    // Extract text from PDF
+    const pdfData = await pdfParse(dataBuffer);
+
     // Optionally delete the local file after upload
     fs.unlinkSync(req.file.path);
 
@@ -44,7 +51,7 @@ router.post('/upload/:username', upload.single('file'), async (req, res) => {
       message: "File uploaded to OSS!",
       url: result.url,
       file: req.file,
-      body: req.body
+      pdfData: pdfData.text 
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
