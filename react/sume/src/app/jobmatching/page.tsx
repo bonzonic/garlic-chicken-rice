@@ -4,6 +4,7 @@ import JobCard from "./jobMatching";
 import { TextField, Autocomplete, Chip } from "@mui/material";
 import { jobTypes, specialisation, states } from "./jobs";
 import { useState } from "react";
+import TenQuestions from "./tenQuestions";
 
 const FilterComponent = ({
   stringArray,
@@ -58,22 +59,25 @@ const JobMatchingPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
-      <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-        <FilterComponent stringArray={specialisation} text="Specialisation" />
-        <FilterComponent stringArray={states} text="State" />
-        <FilterComponent stringArray={jobTypes} text="Job Type" />
+    <>
+      <div className="flex flex-col items-center justify-center h-ufll w-full mb-10">
+        <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+          <FilterComponent stringArray={specialisation} text="Specialisation" />
+          <FilterComponent stringArray={states} text="State" />
+          <FilterComponent stringArray={jobTypes} text="Job Type" />
+        </div>
+        <JobCard
+          companyDetails="meow"
+          jobTitle="Frontend Developer"
+          description="Work with React and TypeScript to build UI components."
+          url="https://example.com/job/frontend-developer"
+          requirements="help"
+          onApprove={handleApprove}
+          onNext={handleNext}
+        />
       </div>
-      <JobCard
-        companyDetails="meow"
-        jobTitle="Frontend Developer"
-        description="Work with React and TypeScript to build UI components."
-        url="https://example.com/job/frontend-developer"
-        requirements="help"
-        onApprove={handleApprove}
-        onNext={handleNext}
-      />
-    </div>
+      <TenQuestions />
+    </>
   );
 };
 
