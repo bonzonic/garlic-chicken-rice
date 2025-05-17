@@ -1,9 +1,10 @@
-"use client";
+"use client"
 
+import FilterListIcon from "@mui/icons-material/FilterList"; // <-- Add this import
+import { useState, useEffect } from "react";
 import JobCard from "./jobMatching";
-import { TextField, Autocomplete, Chip } from "@mui/material";
+import { TextField, Autocomplete, Chip, Button } from "@mui/material";
 import { jobTypes, specialisation, states } from "./jobs";
-import { useState } from "react";
 
 const FilterComponent = ({
   stringArray,
@@ -36,26 +37,58 @@ const FilterComponent = ({
           );
         })
       }
-      style={{ width: 500 }}
+      style={{ width: 400 }}
       renderInput={(params) => <TextField {...params} label={text} />}
     />
   );
 };
 
 interface Job {
-  title: string;
+  companyDetails: string;
+  jobTitle: string;
   description: string;
   url: string;
+  requirements: string;
 }
 
 const JobMatchingPage = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [currentJobIndex, setCurrentJobIndex] = useState(0);
+
+  const handleApply = () => {
+    console.log("hoe")
+    fetch("http://localhost:8080/api/match", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "resumeText": "I like CS",
+        "state": "Kuala Lumpur",
+        "specialization": "Software Engineering",
+        "jobType": " Full Time"
+        // Add more fields as needed
+      }),
+    })
+      .then((res) => res.json().matches)
+      .then((data) => {
+        console.log("Applied!", data);
+        // Optionally show a success message
+      })
+      .catch((err) => console.error("Failed to apply for job:", err));
+  };
+
+
   const handleApprove = () => {
     console.log("Approved!");
   };
 
   const handleNext = () => {
+    setCurrentJobIndex((prev) => (prev + 1) % jobs.length);
     console.log("Next job!");
   };
+
+  const currentJob = jobs[currentJobIndex];
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full">
@@ -63,18 +96,51 @@ const JobMatchingPage = () => {
         <FilterComponent stringArray={specialisation} text="Specialisation" />
         <FilterComponent stringArray={states} text="State" />
         <FilterComponent stringArray={jobTypes} text="Job Type" />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleApply}
+          sx={{ textTransform: "none" }}
+          startIcon={<FilterListIcon />}
+        >
+          Apply Filter
+        </Button>
       </div>
-      <JobCard
-        companyDetails="meow"
-        jobTitle="Frontend Developer"
-        description="Work with React and TypeScript to build UI components."
-        url="https://example.com/job/frontend-developer"
-        requirements="help"
-        onApprove={handleApprove}
-        onNext={handleNext}
-      />
+      {jobs.length > 0 && currentJob ? (
+        <div>
+          <JobCard
+            companyDetails={currentJob.companyDetails}
+            jobTitle={currentJob.jobTitle}
+            description={currentJob.description}
+            url={currentJob.url}
+            requirements={currentJob.requirements}
+            onApprove={handleApprove}
+            onNext={handleNext}
+          />
+          <button
+            style={{
+              marginTop: "16px",
+              padding: "8px 16px",
+              background: "#1976d2",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            onClick={handleApprove}
+          >
+            Apply
+          </button>
+        </div>
+      ) : (
+        <div class="h-full pt-10" > 
+          <p>
+            No filters applied.
+          </p>
+        </div>
+      )}
     </div>
-  );
+);
 };
 
 export default JobMatchingPage;

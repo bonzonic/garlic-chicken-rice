@@ -22,6 +22,8 @@ app.use(cors({
 
 
 const analyzerRouter = require('./routes/analyzer.route');
+const matchRouter = require('./routes/match.route');
+
 
 
 app.get("/", (req, res) => {
@@ -29,6 +31,8 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api/analyzer', analyzerRouter);
+app.use('/api/match', matchRouter);
+
 
 app.listen(8080, () => {
   console.log("Listening on port 8080");

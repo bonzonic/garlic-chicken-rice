@@ -29,7 +29,7 @@ const JobCard: React.FC<JobCardProps> = ({
       </div>
       <div className="mt-auto flex flex-col">
         <div className="flex flex-row gap-2 mt-4 p-2 justify-between w-full">
-          <button className="flex flex-row p-2 gap-2 w-full hover:bg-gray-800 hover:rounded-lg">
+          <button className="flex flex-row p-2 gap-2 w-full hover:bg-gray-800 hover:rounded-lg" onClick={onNext}>
             <a
               target="_blank"
               className="flex flex-row items-center p-2 gap-2 grow justify-center"
