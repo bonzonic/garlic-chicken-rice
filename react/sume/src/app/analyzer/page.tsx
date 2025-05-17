@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import UploadForm from "./upload_form";
-import BasicEditor from "./editor";
+// import ScrollablePDFViewer from "./editor";
 
 
 const minDrawerWidth = 180;
@@ -56,8 +56,12 @@ const Analyzer: React.FC = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {/* Header with upload button */}
         <UploadForm />
-        <BasicEditor/>
+        {/* <ScrollablePDFViewer/> */}
       </Box>
+
+
+
+
 
       {/* Sidebar on the right, resizable */}
       <Drawer

@@ -12,7 +12,7 @@ const UploadForm: React.FC = () => {
   const [fileName, setFileName] = useState<string | null>(null);
 
   const basePath = "http://localhost:8080"
-
+  const username = "yunfeng"
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
@@ -25,13 +25,22 @@ const UploadForm: React.FC = () => {
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
       
-      fetch(`${basePath}/api/analyzer`, {
+
+      fetch(`http://localhost:8080/api/analyzer/upload/${username}`, {
         method: "POST",
         body: formData,
-      });
-      
-      setUploading(false)
-      setUploaded(true);
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Upload failed");
+        }
+        else {
+          setUploading(false)
+          setUploaded(true);
+        }
+
+        return response.json();
+      })
       // Here you can handle the upload logic (e.g., send to server)
     }
   };

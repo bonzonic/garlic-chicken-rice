@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^44.3.0",
+    "@ckeditor/ckeditor5-react": "^9.5.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
@@ -16,6 +18,7 @@
     "next": "^15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-pdf": "^9.2.1",
     "slate": "^0.114.0",
     "slate-history": "^0.113.1",
     "slate-react": "^0.114.2"

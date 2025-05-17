@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 const bodyParser = require("body-parser");
-// const cors = require("cors");
+const cors = require("cors");
 
 const { json } = require("express");
 
@@ -12,16 +12,13 @@ const { json } = require("express");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(
-//   cors({
-//     origin: [
-//       "http://127.0.0.1:5173",
-//       "http://127.0.0.1:5174",
-//       "http://localhost:5173",
-//       "http://127.0.0.1:9545/",
-//     ],
-//   })
-// );
+app.use(cors({
+  origin: [
+    "http://localhost:3000", // or your React dev server port
+    "http://127.0.0.1:3000"
+  ],
+  credentials: true
+}));
 
 
 const analyzerRouter = require('./routes/analyzer.route');

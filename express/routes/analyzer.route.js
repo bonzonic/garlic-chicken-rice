@@ -12,21 +12,40 @@ const client = new OSS({
   bucket: process.env.ALI_OSS_BUCKET,
 });
 
-router.post('/', async (req, res) => {
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // 'uploads/' is the folder to store files
+
+router.post('/test', async (req, res) => {
   try {
-    // 1. Convert req.body to JSON file
-    const jsonContent = JSON.stringify(req.body, null, 2);
-    const fileName = `data-${Date.now()}.json`;
-    const filePath = path.join(__dirname, fileName);
-    fs.writeFileSync(filePath, jsonContent);
+    
+    res.json(req.body);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-    // 2. Upload to Alibaba OSS
-    // const result = await client.put(`uploads/${fileName}`, filePath);
 
-    // 3. Remove local file after upload
-    fs.unlinkSync(filePath);
+router.post('/upload/:username', upload.single('file'), async (req, res) => {
+    const username = req.params.username;
+   try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
 
-    res.json({ message: "Uploaded to OSS", url: result.url });
+    // Upload to OSS
+    const ossPath = `${username}/${req.file.originalname}`;
+    const result = await client.put(ossPath, req.file.path);
+
+    // Optionally delete the local file after upload
+    fs.unlinkSync(req.file.path);
+
+    res.json({
+      message: "File uploaded to OSS!",
+      url: result.url,
+      file: req.file,
+      body: req.body
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

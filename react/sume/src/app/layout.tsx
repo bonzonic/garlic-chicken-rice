@@ -28,7 +28,7 @@ export default function RootLayout({
     <Box role="presentation" sx={{ width: "250px" }}>
       <List>
         <ListItem key={"AI Analyzer"} disablePadding>
-          <ListItemButton onClick={() => router.push("/analzyer")}>
+          <ListItemButton onClick={() => router.push("/analyzer")}>
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
