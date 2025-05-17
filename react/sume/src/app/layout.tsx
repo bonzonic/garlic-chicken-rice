@@ -28,7 +28,12 @@ export default function RootLayout({
     <Box role="presentation" sx={{ width: "250px" }}>
       <List>
         <ListItem key={"AI Analyzer"} disablePadding>
-          <ListItemButton onClick={() => router.push("/analzyer")}>
+          <ListItemButton
+            onClick={() => {
+              router.push("/analyzer");
+              setIsOpen(false);
+            }}
+          >
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
@@ -36,7 +41,12 @@ export default function RootLayout({
           </ListItemButton>
         </ListItem>
         <ListItem key={"Job Matching"} disablePadding>
-          <ListItemButton onClick={() => router.push("/jobmatching")}>
+          <ListItemButton
+            onClick={() => {
+              router.push("/jobmatching");
+              setIsOpen(false);
+            }}
+          >
             <ListItemIcon>
               <JoinInnerIcon />
             </ListItemIcon>
@@ -56,20 +66,8 @@ export default function RootLayout({
     <html lang="en">
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <body
-          style={{
-            backgroundColor: "#1f2937",
-            color: "#f8f8f2",
-            fontFamily: "Inter",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
+        <body className="flex flex-col  h-screen">
+          <div className="flex flex-row items-center bg-gray-900 text-white p-4">
             <Button onClick={() => setIsOpen(true)}>
               <MenuIcon />
             </Button>
@@ -82,6 +80,7 @@ export default function RootLayout({
             </Drawer>
             <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
               <Image
+                alt="logo"
                 src="/logo_alibaba.png"
                 width="20"
                 height="20"
@@ -90,7 +89,7 @@ export default function RootLayout({
               <h2 className="text-xl">Sume</h2>
             </div>
           </div>
-          {children}
+          <div className="p-4 w-screen h-full">{children}</div>
         </body>
       </ThemeProvider>
     </html>

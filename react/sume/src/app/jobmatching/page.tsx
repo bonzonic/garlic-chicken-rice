@@ -17,7 +17,6 @@ const FilterComponent = ({
   return (
     <Autocomplete
       multiple
-
       id="fixed-tags-demo"
       value={value}
       onChange={(event, newValue) => {
@@ -59,16 +58,7 @@ const JobMatchingPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        justifyItems: "center",
-        alignItems: "center",
-        alignContent: "center",
-      }}
-    >
+    <div className="flex flex-col items-center justify-center h-full w-full">
       <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
         <FilterComponent stringArray={specialisation} text="Specialisation" />
         <FilterComponent stringArray={states} text="State" />
