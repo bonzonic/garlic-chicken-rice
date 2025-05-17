@@ -1,5 +1,4 @@
 export const specialisation = [
-  "Specialisation",
   "Accounting",
   "Finance",
   "Admin",
