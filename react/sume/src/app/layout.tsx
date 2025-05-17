@@ -13,8 +13,11 @@ import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import JoinInnerIcon from "@mui/icons-material/JoinInner";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import UploadForm from "./analyzer/upload_form";
 
 export default function RootLayout({
   children,
@@ -27,7 +30,7 @@ export default function RootLayout({
   const list = () => (
     <Box role="presentation" sx={{ width: "250px" }}>
       <List>
-        <ListItem key={"AI Analyzer"} disablePadding>
+        <ListItem key={"AI Analyzer for Resume"} disablePadding>
           <ListItemButton
             onClick={() => {
               router.push("/analyzer");
@@ -37,7 +40,7 @@ export default function RootLayout({
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
-            <ListItemText primary={"AI Analyzer"} />
+            <ListItemText primary={"AI Analyzer for Resume"} />
           </ListItemButton>
         </ListItem>
         <ListItem key={"Job Matching"} disablePadding>
@@ -53,6 +56,32 @@ export default function RootLayout({
             <ListItemText primary={"Job Matching"} />
           </ListItemButton>
         </ListItem>
+        <ListItem key={"Profile"} disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push("/profile");
+              setIsOpen(false);
+            }}
+          >
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Profile"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key={"Settings"} disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push("/settings");
+              setIsOpen(false);
+            }}
+          >
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Settings"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -66,8 +95,9 @@ export default function RootLayout({
     <html lang="en">
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <body className="flex flex-col overflow-x-hidden">
-          <div className="flex flex-row items-center bg-gray-900 text-white p-4">
+        <body className="w-full flex flex-col overflow-x-hidden">
+          <div className="w-full flex flex-grow flex-row items-center bg-gray-900 text-white p-4">
+            
             <Button onClick={() => setIsOpen(true)}>
               <MenuIcon />
             </Button>
@@ -78,6 +108,7 @@ export default function RootLayout({
             >
               {list()}
             </Drawer>
+
             <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
               <Image
                 alt="logo"
@@ -87,6 +118,9 @@ export default function RootLayout({
                 style={{ height: "20px", width: "20px" }}
               />
               <h2 className="text-xl">Sume</h2>
+            </div>
+            <div className="ml-auto mr-20">
+              <UploadForm />
             </div>
           </div>
           <div className="p-4 w-screen h-full">{children}</div>
