@@ -66,7 +66,7 @@ export default function RootLayout({
     <html lang="en">
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <body className="flex flex-col  h-screen overflow-x-hidden">
+        <body className="flex flex-col overflow-x-hidden">
           <div className="flex flex-row items-center bg-gray-900 text-white p-4">
             <Button onClick={() => setIsOpen(true)}>
               <MenuIcon />

@@ -4,7 +4,7 @@ const path = require("path");
 const OSS = require("ali-oss");
 const router = express.Router();
 const OpenAI = require("openai");
-const pdfParse = require('pdf-parse');
+const pdfParse = require("pdf-parse");
 
 // Configure your OSS client
 const client = new OSS({
@@ -70,18 +70,7 @@ router.post("/tenQuestions", async (req, res) => {
         throw error;
       }
     };
-    res.json([
-      "Rate the candidate's experience in providing excellent customer service, including greeting customers and taking accurate orders (1–10).",
-      "How strong is the candidate's demonstrated ability to prepare food items according to specific standards and ensure quality consistency? (1–10)",
-      "Evaluate the candidate's experience in maintaining cleanliness and organization in a restaurant or similar environment (1–10).",
-      "Assess the candidate's knowledge of inventory management, including stocking and managing supplies (1–10).",
-      "Rate the candidate's teamwork skills, particularly in collaborating with others to meet shift goals and operational targets (1–10).",
-      "How well does the resume indicate the candidate's ability to assist in training new hires and sharing knowledge effectively? (1–10)",
-      "Rate the candidate's experience in contributing to achieving sales goals within a team setting (1–10).",
-      "Assess the candidate's ability to handle multiple responsibilities efficiently during busy periods (1–10).",
-      "Evaluate the candidate's attention to detail in ensuring a positive dining experience for customers (1–10).",
-      "Rate the candidate's adaptability and willingness to perform various tasks as required in a fast-paced environment (1–10).",
-    ]);
+    res.json(await generateRatingQuestions(jobDescription));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -156,7 +145,7 @@ router.post("/upload/:username", upload.single("file"), async (req, res) => {
       message: "File uploaded to OSS!",
       url: result.url,
       file: req.file,
-      pdfData: pdfData.text 
+      pdfData: pdfData.text,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
