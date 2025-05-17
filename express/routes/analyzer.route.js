@@ -132,6 +132,41 @@ Provide only an array of scores, like this example:
   }
 });
 
+
+router.post("/summarize", async (req, res) => {
+  const { description } = req.body;
+
+  try {
+    const openai = new OpenAI({
+      apiKey: "sk-afbab412717241a19864f432b830930a",
+      baseURL: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+    });
+
+    const completion = await openai.chat.completions.create({
+      model: "qwen-plus",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        {
+          role: "user",
+          content: `Given a job description from a job post, summarize it. Job description: ${description}`
+        },
+      ],
+    });
+
+    // Parse the response content as JSON
+    const scores = JSON.parse(completion.choices[0].message.content);
+    console.log("scores", scores);  
+    res.json(completion);
+  } catch (error) {
+    console.log(`Error message: ${error}`);
+    console.log(
+      "For more information, see: https://www.alibabacloud.com/help/en/model-studio/developer-reference/error-code"
+    );
+    throw error; // Re-throw the error so the caller can handle it if needed
+  }
+});
+
+
 router.post("/upload/:username", upload.single("file"), async (req, res) => {
   const username = req.params.username;
   try {
