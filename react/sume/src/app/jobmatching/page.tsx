@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import JobCard from "./jobMatching";
 import { TextField, Autocomplete, Chip, Button } from "@mui/material";
 import { jobTypes, specialisation, states } from "./jobs";
+import TenQuestions from "./tenQuestions";
 
 const description_length = 200
 const FilterComponent = ({
@@ -120,7 +121,6 @@ const JobMatchingPage = () => {
         <div className="h-full w-full my-10 max-w-[800px]">
 
           <JobCard
-            className="h-full"
             companyDetails={currentJob.metadata.company}
             jobTitle={currentJob.metadata.title}
             description={
@@ -132,6 +132,7 @@ const JobMatchingPage = () => {
             onApprove={handleApprove}
             onNext={handleNext}
           />
+          <TenQuestions />
         </div>
       }
       {jobs.length == 0 && !applying &&

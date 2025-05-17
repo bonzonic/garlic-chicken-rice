@@ -19,7 +19,7 @@ const JobCard: React.FC<JobCardProps> = ({
   onNext,
 }) => {
   return (
-    <div className="bg-gray-900 shadow-2xl rounded-3xl px-8 pt-8 w-1/2 h-full mt-4 flex flex-col">
+    <div className="bg-gray-900 shadow-2xl rounded-3xl px-8 pt-8 w-1/2 h-[500px] mt-4 flex flex-col">
       <div className="mb-4">
         <h2 className="font-bold text-xl">{jobTitle}</h2>
         <div className="text-gray-300 mb-2 text-sm">{companyDetails}</div>
