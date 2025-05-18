@@ -23,3 +23,5 @@ This will not work if there are no API keys in the ```.env``` file!
 ## Future Enhancements
 1. Provide learning materials or courses to allow the candidate to upskill and stand out from the crowd. This also provides an additional source of income for the application, where we can earn referral fees from the learning platforms.
 2. Allow employers to sponsor jobs. Making their jobs show up more often in candidate's web page.
+
+![image](https://github.com/user-attachments/assets/50a00394-8697-45e1-af0d-33b44687c1b5)
