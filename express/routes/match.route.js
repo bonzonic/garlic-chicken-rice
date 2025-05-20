@@ -12,7 +12,7 @@ const pc = new Pinecone({
 const index = pc.index('sume');
 
 const openai = new OpenAI({
-    apiKey: "sk-afbab412717241a19864f432b830930a", //  API key for OpenAI
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY ?? "", //  API key for OpenAI
     baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1'
 });
 
