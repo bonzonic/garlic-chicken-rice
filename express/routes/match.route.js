@@ -7,12 +7,12 @@ const path = require('path');
 const router = express.Router();
 
 const pc = new Pinecone({
-  apiKey: 'pcsk_44Bcxs_F982ccogHqrd6zHcKQ8KerepiPqdXB4Cmycd6Tvy2BMZvvmD1BLkuyF84bWNRWM'
+  apiKey: process.env.NEXT_PUBLIC_PINECONE_API_KEY ?? "", // API key for Pinecone
 });
 const index = pc.index('sume');
 
 const openai = new OpenAI({
-    apiKey: "sk-afbab412717241a19864f432b830930a", //  API key for OpenAI
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY ?? "", //  API key for OpenAI
     baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1'
 });
 
